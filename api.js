@@ -6,7 +6,7 @@
 
 // ====================== CONFIGURATION ======================
 const LOTUS_API = {
-    BASE_URL: 'https://script.google.com/macros/s/AKfycbypl2_FQwAo2lkmBcK-OgiNMdo9KwV7_-vRu__GkaxEKp7XZODlIYmEpZ_II5nQ9GDyTQ/exec',
+    BASE_URL: 'https://script.google.com/macros/s/AKfycbwHHMJbwheajr22wVD9xTqs3K-9k5sNtu4qUGF7OtVOWFstFC52ZGwmyzIJmuiptJ7BhQ/exec',
     TIMEOUT: 10000, // 10 seconds
     RETRY_ATTEMPTS: 3,
     RETRY_DELAY: 1000 // 1 second
