@@ -6,8 +6,8 @@
 // ====================== CONFIGURATION ======================
 const LOTUS_CONFIG = {
     // API Endpoints
-    ORIGINAL_API: 'https://script.google.com/macros/s/AKfycbypl2_FQwAo2lkmBcK-OgiNMdo9KwV7_-vRu__GkaxEKp7XZODlIYmEpZ_II5nQ9GDyTQ/exec',
-    ALTERNATIVE_API: 'https://script.google.com/macros/s/AKfycbypl2_FQwAo2lkmBcK-OgiNMdo9KwV7_-vRu__GkaxEKp7XZODlIYmEpZ_II5nQ9GDyTQ/dev',
+    ORIGINAL_API: 'https://script.google.com/macros/s/AKfycbwHHMJbwheajr22wVD9xTqs3K-9k5sNtu4qUGF7OtVOWFstFC52ZGwmyzIJmuiptJ7BhQ/exec',
+    ALTERNATIVE_API: 'https://script.google.com/macros/s/AKfycbwHHMJbwheajr22wVD9xTqs3K-9k5sNtu4qUGF7OtVOWFstFC52ZGwmyzIJmuiptJ7BhQ/dev',
     
     // Settings
     USE_REAL_API: true,
