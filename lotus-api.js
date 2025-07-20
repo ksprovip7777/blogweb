@@ -1,6 +1,7 @@
 /**
- * 🌸 LOTUS GLASS - UNIFIED API SYSTEM
+ * 🌸 LOTUS GLASS - UNIFIED API SYSTEM v4.0
  * Production-ready API with smart fallback mechanism
+ * Database Schema Compliant
  */
 
 // ====================== CONFIGURATION ======================
@@ -8,28 +9,56 @@ const LOTUS_CONFIG = {
     // API Endpoints
     ORIGINAL_API: 'https://mylotusapiproxy.hieuvq-viettiep.workers.dev/',
     ALTERNATIVE_API: 'https://mylotusapiproxy.hieuvq-viettiep.workers.dev/',
-    
+
     // Settings
     USE_REAL_API: true,
     RETRY_ATTEMPTS: 2,
     TIMEOUT: 8000,
-    
+
     // Cache
     CACHE_DURATION: 5 * 60 * 1000, // 5 minutes
-    cache: new Map()
+    cache: new Map(),
+
+    // Payment Methods
+    PAYMENT_METHODS: {
+        COD: 'COD',
+        BANK_TRANSFER: 'BANK_TRANSFER'
+    },
+
+    // Order Status
+    ORDER_STATUS: {
+        PENDING: 'PENDING',
+        CONFIRMED: 'CONFIRMED',
+        PREPARING: 'PREPARING',
+        SHIPPING: 'SHIPPING',
+        DELIVERED: 'DELIVERED',
+        CANCELLED: 'CANCELLED',
+        RETURNED: 'RETURNED'
+    },
+
+    // Membership Tiers
+    MEMBERSHIP_TIERS: {
+        BRONZE: { min: 0, max: 2000000, name: 'Đồng' },
+        SILVER: { min: 2000000, max: 12000000, name: 'Bạc' },
+        TITAN: { min: 12000000, max: 36000000, name: 'Titan' },
+        GOLD: { min: 36000000, max: 60000000, name: 'Vàng' },
+        PLATINUM: { min: 60000000, max: 180000000, name: 'Bạch Kim' },
+        SIGNATURE: { min: 180000000, max: Infinity, name: 'Signature' }
+    }
 };
 
-// ====================== REAL MOCK DATA ======================
+// ====================== ENHANCED MOCK DATA ======================
 const MOCK_DATA = {
-    getConfig: {
+    getSiteConfig: {
         success: true,
         message: "Lấy cấu hình thành công",
         data: {
             business: {
-                business_name: "Lotus Glass",
+                business_name: "Lotus Glass Vietnam",
                 address: "136 Bãi Sậy, Phường 1, Quận 6, TP HCM",
                 phone: "0981 500 400",
                 email: "info@lotusglass.com",
+                website: "https://lotus-glass.blogspot.com",
                 bank_account_name: "VO QUANG HIEU",
                 bank_number: "0886468660",
                 bank_name: "MB Bank"
@@ -41,13 +70,34 @@ const MOCK_DATA = {
                 bank_transfer_discount: 0.02
             },
             ui: {
-                primary_color: "#2E8B57",
-                enable_caching: false
-            }
+                primary_color: "#fa5d14",
+                secondary_color: "#6387eb",
+                enable_caching: true
+            },
+            system: {
+                app_name: "Lotus Glass",
+                app_version: "4.0",
+                maintenance_mode: false
+            },
+            membership_tiers: LOTUS_CONFIG.MEMBERSHIP_TIERS,
+            payment_methods: [
+                {
+                    id: 'COD',
+                    name: 'Thanh toán khi nhận hàng (COD)',
+                    description: 'Thanh toán bằng tiền mặt khi nhận hàng',
+                    enabled: true
+                },
+                {
+                    id: 'BANK_TRANSFER',
+                    name: 'Chuyển khoản ngân hàng',
+                    description: 'Chuyển khoản qua QR Code hoặc thông tin tài khoản',
+                    enabled: true,
+                    discount: 0.02
+                }
+            ]
         },
-        meta: null,
         timestamp: new Date().toISOString(),
-        version: "2.0"
+        version: "4.0"
     },
 
     getFeaturedProducts: {
@@ -59,41 +109,80 @@ const MOCK_DATA = {
                 SKU: "VTC009IN017HT02",
                 TenSanPham: "CỐC SỐ 9 (Hộp xốp)",
                 PhanLoai: "IN HOA PHÙ DUNG XANH LÁ",
-                MoTa: "Ly đa dụng",
+                MoTa: "Ly đa dụng cao cấp với thiết kế tinh tế",
                 CategoryID: "CTG-001",
-                GiaNiemYet: 150000,
+                GiaNiemYet: 180000,
                 GiaMacDinh: 150000,
+                GiaBac: 140000,
+                GiaTitan: 130000,
+                GiaBachKim: 120000,
                 TonKho: 50,
+                TonKhoTamGiu: 5,
                 HinhAnhChinh: "https://product.hstatic.net/200000605565/product/009_4aa8a8a9190e47d197caeb512a48679c_master.png",
+                TrangThai: "Đang bán",
                 SanPhamNoiBat: true,
-                NgayTao: "2023-12-31T17:00:00.000Z"
+                NgayTao: "2023-12-31T17:00:00.000Z",
+                NgayCapNhat: "2025-01-20T10:00:00.000Z"
             },
             {
                 ProductID: "LTG0044",
+                SKU: "LTG044GLASS",
                 TenSanPham: "LY THỦY TINH CAO CẤP",
                 PhanLoai: "IN HOA LOTUS XANH DƯƠNG",
+                MoTa: "Ly thủy tinh cao cấp với họa tiết lotus độc đáo",
+                CategoryID: "CTG-001",
+                GiaNiemYet: 220000,
                 GiaMacDinh: 180000,
+                GiaBac: 170000,
+                GiaTitan: 160000,
+                GiaBachKim: 150000,
                 TonKho: 30,
+                TonKhoTamGiu: 3,
                 HinhAnhChinh: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=300&h=250&fit=crop",
-                SanPhamNoiBat: true
+                TrangThai: "Đang bán",
+                SanPhamNoiBat: true,
+                NgayTao: "2024-01-15T08:00:00.000Z",
+                NgayCapNhat: "2025-01-20T10:00:00.000Z"
             },
             {
                 ProductID: "LTG0045",
+                SKU: "LTG045BOTTLE",
                 TenSanPham: "BÌNH THỦY TINH ĐỰNG NƯỚC",
                 PhanLoai: "TRONG SUỐT CLASSIC",
+                MoTa: "Bình đựng nước thủy tinh trong suốt, dung tích 1.5L",
+                CategoryID: "CTG-002",
+                GiaNiemYet: 300000,
                 GiaMacDinh: 250000,
+                GiaBac: 230000,
+                GiaTitan: 210000,
+                GiaBachKim: 190000,
                 TonKho: 25,
+                TonKhoTamGiu: 2,
                 HinhAnhChinh: "https://images.unsplash.com/photo-1544966503-7cc5ac882d5f?w=300&h=250&fit=crop",
-                SanPhamNoiBat: true
+                TrangThai: "Đang bán",
+                SanPhamNoiBat: true,
+                NgayTao: "2024-02-01T09:00:00.000Z",
+                NgayCapNhat: "2025-01-20T10:00:00.000Z"
             },
             {
                 ProductID: "LTG0046",
+                SKU: "LTG046SET6",
                 TenSanPham: "BỘ LY THỦY TINH 6 CÁI",
                 PhanLoai: "BỘ SANG TRỌNG",
+                MoTa: "Bộ 6 ly thủy tinh cao cấp, thiết kế sang trọng",
+                CategoryID: "CTG-003",
+                GiaNiemYet: 550000,
                 GiaMacDinh: 450000,
+                GiaBac: 420000,
+                GiaTitan: 390000,
+                GiaBachKim: 360000,
                 TonKho: 15,
+                TonKhoTamGiu: 1,
                 HinhAnhChinh: "https://images.unsplash.com/photo-1586985289688-ca3cf47d3e6e?w=300&h=250&fit=crop",
-                SanPhamNoiBat: true
+                TrangThai: "Đang bán",
+                SanPhamNoiBat: true,
+                NgayTao: "2024-03-10T11:00:00.000Z",
+                NgayCapNhat: "2025-01-20T10:00:00.000Z"
             },
             {
                 ProductID: "LTG0047",
@@ -259,7 +348,7 @@ function getMockData(action, params = {}) {
  * @returns {Promise} Site config
  */
 async function getSiteConfig() {
-    return await apiCall('getConfig');
+    return await apiCall('getSiteConfig');
 }
 
 /**
@@ -297,6 +386,93 @@ async function getProducts(params = {}) {
  */
 async function searchProducts(query, params = {}) {
     return await getProducts({ ...params, search: query });
+}
+
+/**
+ * Get product with member-specific pricing
+ * @param {string} productId - Product ID
+ * @param {string} customerPhone - Customer phone (optional)
+ * @returns {Promise} Product with member pricing
+ */
+async function getProductWithMemberPrice(productId, customerPhone = null) {
+    return await apiCall('getProductWithMemberPrice', { productId, customerPhone });
+}
+
+/**
+ * Get products by category
+ * @param {string} categoryId - Category ID
+ * @param {string} customerPhone - Customer phone (optional)
+ * @returns {Promise} Products in category
+ */
+async function getProductsByCategory(categoryId, customerPhone = null) {
+    return await apiCall('getProductsByCategory', { categoryId, customerPhone });
+}
+
+/**
+ * Create order with enhanced validation
+ * @param {Object} orderData - Order data
+ * @returns {Promise} Order creation result
+ */
+async function createOrder(orderData) {
+    return await apiCall('createOrder', orderData);
+}
+
+/**
+ * Validate promotion code
+ * @param {string} promoCode - Promotion code
+ * @param {number} orderAmount - Order amount
+ * @param {string} customerPhone - Customer phone (optional)
+ * @returns {Promise} Validation result
+ */
+async function validatePromotion(promoCode, orderAmount, customerPhone = null) {
+    return await apiCall('validatePromotion', { promoCode, orderAmount, customerPhone });
+}
+
+/**
+ * Generate QR code for bank transfer
+ * @param {string} orderId - Order ID
+ * @param {number} amount - Amount
+ * @returns {Promise} QR code data
+ */
+async function generateQRCode(orderId, amount) {
+    return await apiCall('generateQRCode', { orderId, amount });
+}
+
+/**
+ * Register customer
+ * @param {Object} customerData - Customer data
+ * @returns {Promise} Registration result
+ */
+async function registerCustomer(customerData) {
+    return await apiCall('registerCustomer', customerData);
+}
+
+/**
+ * Login customer
+ * @param {string} phone - Phone number
+ * @param {string} password - Password
+ * @returns {Promise} Login result
+ */
+async function loginCustomer(phone, password) {
+    return await apiCall('loginCustomer', { phone, password });
+}
+
+/**
+ * Get customer information
+ * @param {string} phone - Phone number
+ * @returns {Promise} Customer data
+ */
+async function getCustomer(phone) {
+    return await apiCall('getCustomer', { phone });
+}
+
+/**
+ * Calculate shipping fee
+ * @param {Object} shippingData - Shipping data
+ * @returns {Promise} Shipping calculation
+ */
+async function calculateShipping(shippingData) {
+    return await apiCall('calculateShipping', shippingData);
 }
 
 // ====================== UTILITY FUNCTIONS ======================
@@ -402,6 +578,103 @@ if (typeof window !== 'undefined') {
     window.initLotusAPI = initLotusAPI;
 }
 
+/**
+ * Get membership tier name
+ * @param {number} totalSpending - Total spending amount
+ * @returns {string} Tier name
+ */
+function getMembershipTier(totalSpending) {
+    for (const [tier, config] of Object.entries(LOTUS_CONFIG.MEMBERSHIP_TIERS)) {
+        if (totalSpending >= config.min && totalSpending < config.max) {
+            return config.name;
+        }
+    }
+    return 'Đồng'; // Default
+}
+
+/**
+ * Get price for membership tier
+ * @param {Object} product - Product object
+ * @param {string} tier - Membership tier
+ * @returns {number} Price for tier
+ */
+function getPriceForTier(product, tier = 'BRONZE') {
+    const priceFields = {
+        'BRONZE': 'GiaMacDinh',
+        'SILVER': 'GiaBac',
+        'TITAN': 'GiaTitan',
+        'GOLD': 'GiaBachKim',
+        'PLATINUM': 'GiaBachKim',
+        'SIGNATURE': 'GiaBachKim'
+    };
+
+    const field = priceFields[tier] || 'GiaMacDinh';
+    return product[field] || product.GiaMacDinh || 0;
+}
+
+/**
+ * Validate Vietnamese phone number
+ * @param {string} phone - Phone number
+ * @returns {boolean} Is valid
+ */
+function validatePhone(phone) {
+    const phoneRegex = /^[0-9]{10}$/;
+    return phoneRegex.test(phone);
+}
+
+/**
+ * Validate email address
+ * @param {string} email - Email address
+ * @returns {boolean} Is valid
+ */
+function validateEmail(email) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+}
+
+/**
+ * Calculate discount amount
+ * @param {number} amount - Original amount
+ * @param {number} discountPercent - Discount percentage (0-100)
+ * @returns {number} Discount amount
+ */
+function calculateDiscount(amount, discountPercent) {
+    return amount * (discountPercent / 100);
+}
+
+/**
+ * Format order status for display
+ * @param {string} status - Order status
+ * @returns {string} Formatted status
+ */
+function formatOrderStatus(status) {
+    const statusMap = {
+        'PENDING': 'Chờ xác nhận',
+        'CONFIRMED': 'Đã xác nhận',
+        'PREPARING': 'Đang chuẩn bị',
+        'SHIPPING': 'Đang vận chuyển',
+        'DELIVERED': 'Đã giao hàng',
+        'CANCELLED': 'Đã hủy',
+        'RETURNED': 'Đã trả hàng'
+    };
+
+    return statusMap[status] || status;
+}
+
+/**
+ * Get payment method display name
+ * @param {string} method - Payment method
+ * @returns {string} Display name
+ */
+function getPaymentMethodName(method) {
+    const methodMap = {
+        'COD': 'Thanh toán khi nhận hàng',
+        'BANK_TRANSFER': 'Chuyển khoản ngân hàng'
+    };
+
+    return methodMap[method] || method;
+}
+
 // Auto-initialize
 if (typeof document !== 'undefined') {
     if (document.readyState === 'loading') {
@@ -411,4 +684,4 @@ if (typeof document !== 'undefined') {
     }
 }
 
-console.log('🌸 Lotus Glass Unified API loaded');
+console.log('🌸 Lotus Glass Unified API v4.0 loaded - Database Schema Compliant');
