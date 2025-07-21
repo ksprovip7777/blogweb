@@ -392,6 +392,167 @@ if (document.readyState === 'loading') {
     LotusApp.init();
 }
 
+// ====================== UTILITY FUNCTIONS ======================
+
+/**
+ * Validate phone number (Vietnamese format)
+ * @param {string} phone - Phone number to validate
+ * @returns {boolean} - True if valid
+ */
+function validatePhone(phone) {
+    if (!phone) return false;
+    // Remove all non-digit characters
+    const cleanPhone = phone.replace(/\D/g, '');
+    // Check if it's exactly 10 digits and starts with 0
+    return /^0\d{9}$/.test(cleanPhone);
+}
+
+/**
+ * Validate email address
+ * @param {string} email - Email to validate
+ * @returns {boolean} - True if valid
+ */
+function validateEmail(email) {
+    if (!email) return false;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+}
+
+/**
+ * Show alert message
+ * @param {string} message - Message to show
+ * @param {string} type - Alert type (success, error, warning, info)
+ */
+function showAlert(message, type = 'info') {
+    // Remove existing alerts
+    const existingAlerts = document.querySelectorAll('.lotus-alert');
+    existingAlerts.forEach(alert => alert.remove());
+
+    // Create alert element
+    const alertDiv = document.createElement('div');
+    alertDiv.className = `alert alert-${type === 'error' ? 'danger' : type} alert-dismissible fade show lotus-alert`;
+    alertDiv.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 9999;
+        min-width: 300px;
+        max-width: 500px;
+    `;
+
+    const icon = {
+        success: 'fas fa-check-circle',
+        error: 'fas fa-exclamation-circle',
+        warning: 'fas fa-exclamation-triangle',
+        info: 'fas fa-info-circle'
+    }[type] || 'fas fa-info-circle';
+
+    alertDiv.innerHTML = `
+        <i class="${icon} me-2"></i>
+        ${message}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    `;
+
+    document.body.appendChild(alertDiv);
+
+    // Auto remove after 5 seconds
+    setTimeout(() => {
+        if (alertDiv.parentNode) {
+            alertDiv.remove();
+        }
+    }, 5000);
+}
+
+/**
+ * Show loading overlay
+ * @param {string} message - Loading message
+ */
+function showLoading(message = 'Đang xử lý...') {
+    // Remove existing loading
+    hideLoading();
+
+    const loadingDiv = document.createElement('div');
+    loadingDiv.id = 'lotus-loading';
+    loadingDiv.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 10000;
+    `;
+
+    loadingDiv.innerHTML = `
+        <div class="text-center text-white">
+            <div class="spinner-border text-primary mb-3" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <div class="h5">${message}</div>
+        </div>
+    `;
+
+    document.body.appendChild(loadingDiv);
+}
+
+/**
+ * Hide loading overlay
+ */
+function hideLoading() {
+    const loading = document.getElementById('lotus-loading');
+    if (loading) {
+        loading.remove();
+    }
+}
+
+/**
+ * Format currency (Vietnamese Dong)
+ * @param {number} amount - Amount to format
+ * @returns {string} - Formatted currency
+ */
+function formatCurrency(amount) {
+    if (typeof amount !== 'number') {
+        amount = parseFloat(amount) || 0;
+    }
+    return new Intl.NumberFormat('vi-VN', {
+        style: 'currency',
+        currency: 'VND'
+    }).format(amount);
+}
+
+/**
+ * Format number with thousand separators
+ * @param {number} number - Number to format
+ * @returns {string} - Formatted number
+ */
+function formatNumber(number) {
+    if (typeof number !== 'number') {
+        number = parseFloat(number) || 0;
+    }
+    return new Intl.NumberFormat('vi-VN').format(number);
+}
+
+/**
+ * Debounce function
+ * @param {Function} func - Function to debounce
+ * @param {number} wait - Wait time in milliseconds
+ * @returns {Function} - Debounced function
+ */
+function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
+}
+
 // Make functions globally available
 window.LotusApp = LotusApp;
 window.addToCart = addToCart;
@@ -401,3 +562,11 @@ window.clearCart = clearCart;
 window.toggleWishlist = toggleWishlist;
 window.isInWishlist = isInWishlist;
 window.showToast = showToast;
+window.validatePhone = validatePhone;
+window.validateEmail = validateEmail;
+window.showAlert = showAlert;
+window.showLoading = showLoading;
+window.hideLoading = hideLoading;
+window.formatCurrency = formatCurrency;
+window.formatNumber = formatNumber;
+window.debounce = debounce;
