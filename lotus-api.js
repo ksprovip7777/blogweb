@@ -8,12 +8,12 @@
 const LOTUS_CONFIG = {
     // API Endpoints
     ORIGINAL_API: 'https://mylotusapiproxy.hieuvq-viettiep.workers.dev/',
-    ALTERNATIVE_API: 'https://mylotusapiproxy.hieuvq-viettiep.workers.dev/',
+    ALTERNATIVE_API: 'https://script.google.com/macros/s/AKfycbw2bs78YisIjfchUnbBEA7qKotL8PdvXFl0He6-cSxC-75XxE2DsjqvIJa-DH4w_UrkGg/exec',
 
     // Settings
     USE_REAL_API: true,
     RETRY_ATTEMPTS: 2,
-    TIMEOUT: 8000,
+    TIMEOUT: 15000, // Increased timeout to 15 seconds
 
     // Cache
     CACHE_DURATION: 5 * 60 * 1000, // 5 minutes
@@ -98,6 +98,93 @@ const MOCK_DATA = {
         },
         timestamp: new Date().toISOString(),
         version: "4.0"
+    },
+
+    getCustomerStats: {
+        success: true,
+        message: "Lấy thống kê khách hàng thành công",
+        data: {
+            customer: {
+                SoDienThoai: "0123456789",
+                TenKhachHang: "Khách hàng mẫu",
+                Email: "customer@example.com",
+                TongChiTieu: 5000000,
+                HangThanhVien: "SILVER"
+            },
+            totalOrders: 15,
+            totalSpent: 5000000,
+            averageOrderValue: 333333,
+            membershipTier: "SILVER",
+            lastOrderDate: "2025-01-15",
+            recentOrders: [
+                {
+                    orderId: "ORD2025011501",
+                    date: "2025-01-15",
+                    amount: 450000,
+                    status: "DELIVERED"
+                }
+            ]
+        }
+    },
+
+    createReview: {
+        success: true,
+        message: "Đánh giá đã được gửi thành công",
+        data: {
+            ratingId: "RT1737364800000",
+            message: "Đánh giá của bạn đã được gửi và đang chờ duyệt"
+        }
+    },
+
+    getProductReviews: {
+        success: true,
+        message: "Lấy đánh giá sản phẩm thành công",
+        data: {
+            reviews: [
+                {
+                    RatingID: "RT1737364800000",
+                    SoDienThoai: "0123****789",
+                    DiemDanhGia: 5,
+                    NhanXet: "Sản phẩm rất tốt, chất lượng cao",
+                    NgayDanhGia: "2025-01-15"
+                }
+            ],
+            totalReviews: 1,
+            averageRating: 5.0
+        }
+    },
+
+    createReturn: {
+        success: true,
+        message: "Yêu cầu trả hàng đã được gửi thành công",
+        data: {
+            returnId: "RT1737364800000",
+            message: "Yêu cầu trả hàng đã được gửi thành công"
+        }
+    },
+
+    registerCustomer: {
+        success: true,
+        message: "Đăng ký khách hàng thành công",
+        data: {
+            SoDienThoai: "0123456789",
+            TenKhachHang: "Khách hàng mới",
+            message: "Đăng ký thành công! Vui lòng đăng nhập."
+        }
+    },
+
+    loginCustomer: {
+        success: true,
+        message: "Đăng nhập thành công",
+        data: {
+            SoDienThoai: "0123456789",
+            TenKhachHang: "Khách hàng mẫu",
+            Email: "customer@example.com",
+            HangThanhVien: "SILVER",
+            TongChiTieu: 5000000,
+            NgayThamGia: "2024-01-15",
+            DiaChi: "123 Đường ABC, Quận 1, TP.HCM"
+        }
     },
 
     getFeaturedProducts: {
@@ -449,12 +536,11 @@ async function registerCustomer(customerData) {
 
 /**
  * Login customer
- * @param {string} phone - Phone number
- * @param {string} password - Password
+ * @param {Object} loginData - Login data {phone, password}
  * @returns {Promise} Login result
  */
-async function loginCustomer(phone, password) {
-    return await apiCall('loginCustomer', { phone, password });
+async function loginCustomer(loginData) {
+    return await apiCall('loginCustomer', loginData);
 }
 
 /**
@@ -473,6 +559,42 @@ async function getCustomer(phone) {
  */
 async function calculateShipping(shippingData) {
     return await apiCall('calculateShipping', shippingData);
+}
+
+/**
+ * Get customer statistics
+ * @param {string} customerPhone - Customer phone
+ * @returns {Promise} Customer statistics
+ */
+async function getCustomerStats(customerPhone) {
+    return await apiCall('getCustomerStats', { customerPhone });
+}
+
+/**
+ * Create product review
+ * @param {Object} reviewData - Review data
+ * @returns {Promise} Review creation result
+ */
+async function createReview(reviewData) {
+    return await apiCall('createReview', reviewData);
+}
+
+/**
+ * Get product reviews
+ * @param {string} productId - Product ID
+ * @returns {Promise} Product reviews
+ */
+async function getProductReviews(productId) {
+    return await apiCall('getProductReviews', { productId });
+}
+
+/**
+ * Create return request
+ * @param {Object} returnData - Return data
+ * @returns {Promise} Return creation result
+ */
+async function createReturn(returnData) {
+    return await apiCall('createReturn', returnData);
 }
 
 // ====================== UTILITY FUNCTIONS ======================
@@ -503,10 +625,10 @@ function formatDate(date) {
 }
 
 /**
- * Show loading state
+ * Show loading state in container
  * @param {HTMLElement} element - Element to show loading
  */
-function showLoading(element) {
+function showContainerLoading(element) {
     if (element) {
         element.innerHTML = `
             <div class="text-center p-4">
@@ -520,11 +642,11 @@ function showLoading(element) {
 }
 
 /**
- * Show error state
+ * Show error state in container
  * @param {HTMLElement} element - Element to show error
  * @param {string} message - Error message
  */
-function showError(element, message) {
+function showContainerError(element, message) {
     if (element) {
         element.innerHTML = `
             <div class="alert alert-warning text-center">
@@ -571,11 +693,44 @@ if (typeof window !== 'undefined') {
     window.getFeaturedProducts = getFeaturedProducts;
     window.getProducts = getProducts;
     window.searchProducts = searchProducts;
+    window.registerCustomer = registerCustomer;
+    window.loginCustomer = loginCustomer;
+    window.getCustomerStats = getCustomerStats;
+    window.createReview = createReview;
+    window.getProductReviews = getProductReviews;
+    window.createReturn = createReturn;
     window.formatCurrency = formatCurrency;
     window.formatDate = formatDate;
-    window.showLoading = showLoading;
-    window.showError = showError;
+    window.showContainerLoading = showContainerLoading;
+    window.showContainerError = showContainerError;
     window.initLotusAPI = initLotusAPI;
+
+    // Create LotusAPI object for easier access
+    window.LotusAPI = {
+        // Site & Config
+        getSiteConfig,
+
+        // Products
+        getFeaturedProducts,
+        getProducts,
+        searchProducts,
+
+        // Customers
+        registerCustomer,
+        loginCustomer,
+        getCustomerStats,
+
+        // Reviews
+        createReview,
+        getProductReviews,
+
+        // Returns
+        createReturn,
+
+        // Utilities
+        formatCurrency,
+        formatDate
+    };
 }
 
 /**
