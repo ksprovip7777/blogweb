@@ -1,0 +1,546 @@
+/* ====================== LOTUS GLASS COMPONENTS v4.0 ====================== */
+
+/* ====================== NAVIGATION COMPONENTS ====================== */
+
+.lotus-navbar {
+  background: var(--lotus-white);
+  box-shadow: var(--lotus-shadow-sm);
+  border-bottom: 1px solid var(--lotus-light-gray);
+  position: sticky;
+  top: 0;
+  z-index: var(--lotus-z-sticky);
+  transition: all var(--lotus-transition-normal);
+}
+
+.lotus-navbar.scrolled {
+  box-shadow: var(--lotus-shadow-md);
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.95);
+}
+
+.lotus-navbar-brand {
+  font-family: var(--lotus-font-family-heading);
+  font-size: var(--lotus-font-size-xl);
+  font-weight: var(--lotus-font-weight-bold);
+  color: var(--lotus-primary);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: var(--lotus-spacing-sm);
+}
+
+.lotus-navbar-brand:hover {
+  color: var(--lotus-primary-dark);
+  text-decoration: none;
+}
+
+.lotus-nav-link {
+  color: var(--lotus-dark-gray);
+  font-weight: var(--lotus-font-weight-medium);
+  padding: var(--lotus-spacing-sm) var(--lotus-spacing-md);
+  border-radius: var(--lotus-radius-md);
+  transition: all var(--lotus-transition-fast);
+  position: relative;
+}
+
+.lotus-nav-link:hover,
+.lotus-nav-link.active {
+  color: var(--lotus-primary);
+  background-color: var(--lotus-glass-blue);
+}
+
+.lotus-nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: var(--lotus-primary);
+  transition: all var(--lotus-transition-fast);
+  transform: translateX(-50%);
+}
+
+.lotus-nav-link:hover::after,
+.lotus-nav-link.active::after {
+  width: 80%;
+}
+
+/* Breadcrumbs */
+.lotus-breadcrumb {
+  background: var(--lotus-light);
+  padding: var(--lotus-spacing-sm) 0;
+  border-radius: var(--lotus-radius-md);
+  margin-bottom: var(--lotus-spacing-lg);
+}
+
+.lotus-breadcrumb-item {
+  color: var(--lotus-gray);
+  font-size: var(--lotus-font-size-sm);
+}
+
+.lotus-breadcrumb-item.active {
+  color: var(--lotus-primary);
+  font-weight: var(--lotus-font-weight-medium);
+}
+
+.lotus-breadcrumb-item + .lotus-breadcrumb-item::before {
+  content: '›';
+  margin: 0 var(--lotus-spacing-sm);
+  color: var(--lotus-gray);
+}
+
+/* ====================== CARD COMPONENTS ====================== */
+
+.lotus-card {
+  background: var(--lotus-white);
+  border-radius: var(--lotus-radius-lg);
+  box-shadow: var(--lotus-shadow-sm);
+  border: 1px solid var(--lotus-light-gray);
+  overflow: hidden;
+  transition: all var(--lotus-transition-normal);
+}
+
+.lotus-card:hover {
+  box-shadow: var(--lotus-shadow-md);
+  transform: translateY(-2px);
+}
+
+.lotus-card-header {
+  padding: var(--lotus-spacing-lg);
+  border-bottom: 1px solid var(--lotus-light-gray);
+  background: var(--lotus-light);
+}
+
+.lotus-card-body {
+  padding: var(--lotus-spacing-lg);
+}
+
+.lotus-card-footer {
+  padding: var(--lotus-spacing-lg);
+  border-top: 1px solid var(--lotus-light-gray);
+  background: var(--lotus-light);
+}
+
+/* Product Cards */
+.lotus-product-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--lotus-radius-lg);
+  background: var(--lotus-white);
+  box-shadow: var(--lotus-shadow-sm);
+  transition: all var(--lotus-transition-normal);
+}
+
+.lotus-product-card:hover {
+  box-shadow: var(--lotus-shadow-lg);
+  transform: translateY(-4px);
+}
+
+.lotus-product-card-image {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 1;
+  background: var(--lotus-light);
+}
+
+.lotus-product-card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--lotus-transition-slow);
+}
+
+.lotus-product-card:hover .lotus-product-card-image img {
+  transform: scale(1.05);
+}
+
+.lotus-product-card-badge {
+  position: absolute;
+  top: var(--lotus-spacing-sm);
+  left: var(--lotus-spacing-sm);
+  background: var(--lotus-danger);
+  color: var(--lotus-white);
+  padding: var(--lotus-spacing-xs) var(--lotus-spacing-sm);
+  border-radius: var(--lotus-radius-full);
+  font-size: var(--lotus-font-size-xs);
+  font-weight: var(--lotus-font-weight-semibold);
+  text-transform: uppercase;
+}
+
+.lotus-product-card-badge.new {
+  background: var(--lotus-success);
+}
+
+.lotus-product-card-badge.sale {
+  background: var(--lotus-danger);
+}
+
+.lotus-product-card-actions {
+  position: absolute;
+  top: var(--lotus-spacing-sm);
+  right: var(--lotus-spacing-sm);
+  display: flex;
+  flex-direction: column;
+  gap: var(--lotus-spacing-xs);
+  opacity: 0;
+  transform: translateX(10px);
+  transition: all var(--lotus-transition-normal);
+}
+
+.lotus-product-card:hover .lotus-product-card-actions {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.lotus-product-card-action {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--lotus-radius-full);
+  background: var(--lotus-white);
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--lotus-shadow-md);
+  color: var(--lotus-gray);
+  transition: all var(--lotus-transition-fast);
+}
+
+.lotus-product-card-action:hover {
+  background: var(--lotus-primary);
+  color: var(--lotus-white);
+  transform: scale(1.1);
+}
+
+.lotus-product-card-content {
+  padding: var(--lotus-spacing-lg);
+}
+
+.lotus-product-card-title {
+  font-size: var(--lotus-font-size-lg);
+  font-weight: var(--lotus-font-weight-semibold);
+  margin-bottom: var(--lotus-spacing-sm);
+  color: var(--lotus-dark);
+  line-height: var(--lotus-line-height-tight);
+}
+
+.lotus-product-card-price {
+  display: flex;
+  align-items: center;
+  gap: var(--lotus-spacing-sm);
+  margin-bottom: var(--lotus-spacing-sm);
+}
+
+.lotus-product-card-price-current {
+  font-size: var(--lotus-font-size-xl);
+  font-weight: var(--lotus-font-weight-bold);
+  color: var(--lotus-primary);
+}
+
+.lotus-product-card-price-original {
+  font-size: var(--lotus-font-size-base);
+  color: var(--lotus-gray);
+  text-decoration: line-through;
+}
+
+.lotus-product-card-rating {
+  display: flex;
+  align-items: center;
+  gap: var(--lotus-spacing-xs);
+  margin-bottom: var(--lotus-spacing-md);
+}
+
+.lotus-rating-stars {
+  display: flex;
+  gap: 2px;
+}
+
+.lotus-rating-star {
+  color: var(--lotus-secondary);
+  font-size: var(--lotus-font-size-sm);
+}
+
+.lotus-rating-star.empty {
+  color: var(--lotus-light-gray);
+}
+
+.lotus-rating-text {
+  font-size: var(--lotus-font-size-sm);
+  color: var(--lotus-gray);
+}
+
+/* ====================== BUTTON COMPONENTS ====================== */
+
+.lotus-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--lotus-spacing-sm);
+  padding: var(--lotus-spacing-sm) var(--lotus-spacing-lg);
+  border: none;
+  border-radius: var(--lotus-radius-md);
+  font-family: var(--lotus-font-family);
+  font-size: var(--lotus-font-size-base);
+  font-weight: var(--lotus-font-weight-medium);
+  text-decoration: none;
+  cursor: pointer;
+  transition: all var(--lotus-transition-fast);
+  position: relative;
+  overflow: hidden;
+}
+
+.lotus-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.lotus-btn-primary {
+  background: var(--lotus-primary);
+  color: var(--lotus-white);
+}
+
+.lotus-btn-primary:hover:not(:disabled) {
+  background: var(--lotus-primary-dark);
+  transform: translateY(-1px);
+  box-shadow: var(--lotus-shadow-md);
+}
+
+.lotus-btn-secondary {
+  background: var(--lotus-secondary);
+  color: var(--lotus-dark);
+}
+
+.lotus-btn-secondary:hover:not(:disabled) {
+  background: var(--lotus-secondary-dark);
+  transform: translateY(-1px);
+  box-shadow: var(--lotus-shadow-md);
+}
+
+.lotus-btn-outline {
+  background: transparent;
+  color: var(--lotus-primary);
+  border: 2px solid var(--lotus-primary);
+}
+
+.lotus-btn-outline:hover:not(:disabled) {
+  background: var(--lotus-primary);
+  color: var(--lotus-white);
+}
+
+.lotus-btn-ghost {
+  background: transparent;
+  color: var(--lotus-primary);
+}
+
+.lotus-btn-ghost:hover:not(:disabled) {
+  background: var(--lotus-glass-blue);
+}
+
+.lotus-btn-sm {
+  padding: var(--lotus-spacing-xs) var(--lotus-spacing-md);
+  font-size: var(--lotus-font-size-sm);
+}
+
+.lotus-btn-lg {
+  padding: var(--lotus-spacing-md) var(--lotus-spacing-xl);
+  font-size: var(--lotus-font-size-lg);
+}
+
+.lotus-btn-icon {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border-radius: var(--lotus-radius-full);
+}
+
+/* Button Loading State */
+.lotus-btn-loading {
+  color: transparent;
+}
+
+.lotus-btn-loading::after {
+  content: '';
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border: 2px solid transparent;
+  border-top: 2px solid currentColor;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ====================== FORM COMPONENTS ====================== */
+
+.lotus-form-group {
+  margin-bottom: var(--lotus-spacing-lg);
+}
+
+.lotus-form-label {
+  display: block;
+  margin-bottom: var(--lotus-spacing-sm);
+  font-weight: var(--lotus-font-weight-medium);
+  color: var(--lotus-dark);
+}
+
+.lotus-form-label.required::after {
+  content: ' *';
+  color: var(--lotus-danger);
+}
+
+.lotus-form-control {
+  width: 100%;
+  padding: var(--lotus-spacing-sm) var(--lotus-spacing-md);
+  border: 2px solid var(--lotus-light-gray);
+  border-radius: var(--lotus-radius-md);
+  font-family: var(--lotus-font-family);
+  font-size: var(--lotus-font-size-base);
+  transition: all var(--lotus-transition-fast);
+  background: var(--lotus-white);
+}
+
+.lotus-form-control:focus {
+  outline: none;
+  border-color: var(--lotus-primary);
+  box-shadow: 0 0 0 3px rgba(44, 90, 160, 0.1);
+}
+
+.lotus-form-control.error {
+  border-color: var(--lotus-danger);
+}
+
+.lotus-form-control.success {
+  border-color: var(--lotus-success);
+}
+
+.lotus-form-text {
+  font-size: var(--lotus-font-size-sm);
+  color: var(--lotus-gray);
+  margin-top: var(--lotus-spacing-xs);
+}
+
+.lotus-form-error {
+  font-size: var(--lotus-font-size-sm);
+  color: var(--lotus-danger);
+  margin-top: var(--lotus-spacing-xs);
+  display: flex;
+  align-items: center;
+  gap: var(--lotus-spacing-xs);
+}
+
+.lotus-form-success {
+  font-size: var(--lotus-font-size-sm);
+  color: var(--lotus-success);
+  margin-top: var(--lotus-spacing-xs);
+  display: flex;
+  align-items: center;
+  gap: var(--lotus-spacing-xs);
+}
+
+/* Input Groups */
+.lotus-input-group {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.lotus-input-group-prepend,
+.lotus-input-group-append {
+  display: flex;
+  align-items: center;
+  padding: var(--lotus-spacing-sm) var(--lotus-spacing-md);
+  background: var(--lotus-light);
+  border: 2px solid var(--lotus-light-gray);
+  color: var(--lotus-gray);
+}
+
+.lotus-input-group-prepend {
+  border-right: none;
+  border-radius: var(--lotus-radius-md) 0 0 var(--lotus-radius-md);
+}
+
+.lotus-input-group-append {
+  border-left: none;
+  border-radius: 0 var(--lotus-radius-md) var(--lotus-radius-md) 0;
+}
+
+.lotus-input-group .lotus-form-control {
+  border-radius: 0;
+}
+
+.lotus-input-group .lotus-form-control:first-child {
+  border-radius: var(--lotus-radius-md) 0 0 var(--lotus-radius-md);
+}
+
+.lotus-input-group .lotus-form-control:last-child {
+  border-radius: 0 var(--lotus-radius-md) var(--lotus-radius-md) 0;
+}
+
+/* ====================== ALERT COMPONENTS ====================== */
+
+.lotus-alert {
+  padding: var(--lotus-spacing-md) var(--lotus-spacing-lg);
+  border-radius: var(--lotus-radius-md);
+  border: 1px solid transparent;
+  margin-bottom: var(--lotus-spacing-lg);
+  display: flex;
+  align-items: flex-start;
+  gap: var(--lotus-spacing-sm);
+}
+
+.lotus-alert-success {
+  background: var(--lotus-success-light);
+  border-color: var(--lotus-success);
+  color: var(--lotus-success);
+}
+
+.lotus-alert-warning {
+  background: var(--lotus-warning-light);
+  border-color: var(--lotus-warning);
+  color: #856404;
+}
+
+.lotus-alert-danger {
+  background: var(--lotus-danger-light);
+  border-color: var(--lotus-danger);
+  color: var(--lotus-danger);
+}
+
+.lotus-alert-info {
+  background: var(--lotus-info-light);
+  border-color: var(--lotus-info);
+  color: var(--lotus-info);
+}
+
+.lotus-alert-icon {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.lotus-alert-content {
+  flex: 1;
+}
+
+.lotus-alert-title {
+  font-weight: var(--lotus-font-weight-semibold);
+  margin-bottom: var(--lotus-spacing-xs);
+}
+
+.lotus-alert-dismiss {
+  background: none;
+  border: none;
+  color: inherit;
+  opacity: 0.7;
+  cursor: pointer;
+  padding: 0;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+.lotus-alert-dismiss:hover {
+  opacity: 1;
+}
