@@ -4,13 +4,13 @@
 /* ====================== CSS VARIABLES ====================== */
 :root {
     /* Colors */
-    --primary-color: #2E8B57;
-    --primary-dark: #1F5F3F;
-    --primary-light: #90EE90;
-    --secondary-color: #20B2AA;
-    --accent-color: #FFD700;
-    --text-primary: #2C3E50;
-    --text-secondary: #7F8C8D;
+    --primary-color: #fa5d14;
+    --primary-dark: #1d1161;
+    --primary-light: #f7be7c;
+    --secondary-color: #6387eb;
+    --accent-color: #ffa909;
+    --text-primary: #16304b;
+    --text-secondary: #6a728b;
     --text-muted: #BDC3C7;
     --bg-primary: #FFFFFF;
     --bg-secondary: #F8F9FA;
