@@ -157,6 +157,12 @@
                 case 'checkout':
                     showCheckoutSection();
                     break;
+                case 'blog':
+                    showBlogSection();
+                    break;
+                case 'contact':
+                    showContactSection();
+                    break;
                 default:
                     showHomeSection();
                     page = 'home';
@@ -264,7 +270,182 @@
             }
         }
     }
-    
+
+    // Show blog section
+    function showBlogSection() {
+        // Create blog content if it doesn't exist
+        let blogContent = document.getElementById('blog-content');
+        if (!blogContent) {
+            blogContent = document.createElement('div');
+            blogContent.id = 'blog-content';
+            blogContent.className = 'blog-content';
+            blogContent.innerHTML = `
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="page-header text-center mb-5">
+                                <h1 class="page-title display-4 fw-bold">
+                                    <i class="fas fa-newspaper text-primary me-3"></i>
+                                    Blog & Tin tức
+                                </h1>
+                                <p class="lead text-muted">Cập nhật những thông tin mới nhất về sản phẩm và khuyến mãi</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row g-4" id="blog-posts-grid">
+                        <div class="col-12 text-center">
+                            <div class="loading-spinner">
+                                <div class="spinner-border text-primary" role="status">
+                                    <span class="visually-hidden">Đang tải bài viết...</span>
+                                </div>
+                                <p class="mt-3 text-muted">Đang tải danh sách bài viết...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            document.querySelector('.main-content').appendChild(blogContent);
+        }
+
+        blogContent.style.display = 'block';
+        blogContent.classList.add('lotus-animate-fade-in');
+
+        // Load blog posts (using Blogger's built-in posts)
+        loadBlogPosts();
+    }
+
+    // Show contact section
+    function showContactSection() {
+        // Create contact content if it doesn't exist
+        let contactContent = document.getElementById('contact-content');
+        if (!contactContent) {
+            contactContent = document.createElement('div');
+            contactContent.id = 'contact-content';
+            contactContent.className = 'contact-content';
+            contactContent.innerHTML = `
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="page-header text-center mb-5">
+                                <h1 class="page-title display-4 fw-bold">
+                                    <i class="fas fa-phone text-success me-3"></i>
+                                    Liên hệ
+                                </h1>
+                                <p class="lead text-muted">Chúng tôi luôn sẵn sàng hỗ trợ bạn</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row g-5">
+                        <div class="col-lg-6">
+                            <div class="contact-info">
+                                <h3 class="h4 fw-bold mb-4">Thông tin liên hệ</h3>
+                                <div class="contact-item mb-3">
+                                    <i class="fas fa-map-marker-alt text-primary me-3"></i>
+                                    <span>123 Đường ABC, Quận XYZ, TP.HCM</span>
+                                </div>
+                                <div class="contact-item mb-3">
+                                    <i class="fas fa-phone text-success me-3"></i>
+                                    <span>0123 456 789</span>
+                                </div>
+                                <div class="contact-item mb-3">
+                                    <i class="fas fa-envelope text-info me-3"></i>
+                                    <span>info@lotusglass.vn</span>
+                                </div>
+                                <div class="contact-item mb-3">
+                                    <i class="fas fa-clock text-warning me-3"></i>
+                                    <span>8:00 - 18:00 (Thứ 2 - Chủ nhật)</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="contact-form">
+                                <h3 class="h4 fw-bold mb-4">Gửi tin nhắn</h3>
+                                <form id="contact-form">
+                                    <div class="mb-3">
+                                        <label class="form-label">Họ tên *</label>
+                                        <input type="text" class="form-control" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Email *</label>
+                                        <input type="email" class="form-control" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Số điện thoại</label>
+                                        <input type="tel" class="form-control">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Tin nhắn *</label>
+                                        <textarea class="form-control" rows="5" required></textarea>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="fas fa-paper-plane me-2"></i>
+                                        Gửi tin nhắn
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            document.querySelector('.main-content').appendChild(contactContent);
+        }
+
+        contactContent.style.display = 'block';
+        contactContent.classList.add('lotus-animate-fade-in');
+    }
+
+    // Load blog posts
+    function loadBlogPosts() {
+        const grid = document.getElementById('blog-posts-grid');
+        if (!grid) return;
+
+        // Try to get posts from Blogger data
+        if (typeof blogPosts !== 'undefined' && blogPosts.length > 0) {
+            let html = '';
+            blogPosts.forEach(function(post) {
+                html += `
+                    <div class="col-lg-4 col-md-6">
+                        <article class="blog-card modern-card h-100">
+                            <div class="blog-card-image">
+                                <img src="${post.image || 'https://via.placeholder.com/400x250'}"
+                                     alt="${post.title}"
+                                     class="img-fluid"
+                                     loading="lazy"/>
+                            </div>
+                            <div class="blog-card-content p-4">
+                                <h3 class="blog-card-title h5 fw-bold mb-3">
+                                    <a href="${post.url}" class="text-decoration-none">${post.title}</a>
+                                </h3>
+                                <p class="blog-card-excerpt text-muted mb-3">${post.excerpt}</p>
+                                <div class="blog-card-meta d-flex justify-content-between align-items-center">
+                                    <small class="text-muted">
+                                        <i class="fas fa-calendar me-1"></i>
+                                        ${post.date}
+                                    </small>
+                                    <a href="${post.url}" class="btn btn-sm btn-outline-primary">
+                                        Đọc thêm
+                                    </a>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                `;
+            });
+            grid.innerHTML = html;
+        } else {
+            // Fallback content
+            grid.innerHTML = `
+                <div class="col-12 text-center">
+                    <div class="empty-state py-5">
+                        <i class="fas fa-newspaper fa-3x text-muted mb-3"></i>
+                        <h3 class="h5 text-muted">Chưa có bài viết nào</h3>
+                        <p class="text-muted">Hãy quay lại sau để đọc những bài viết mới nhất!</p>
+                    </div>
+                </div>
+            `;
+        }
+    }
+
     // Show product overlay
     function showProductOverlay(productId) {
         if (typeof ProductSection !== 'undefined' && ProductSection.show) {
